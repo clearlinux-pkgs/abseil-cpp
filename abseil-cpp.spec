@@ -5,7 +5,7 @@
 #
 Name     : abseil-cpp
 Version  : 20230125.3
-Release  : 4
+Release  : 5
 URL      : https://github.com/abseil/abseil-cpp/archive/20230125.3/abseil-cpp-20230125.3.tar.gz
 Source0  : https://github.com/abseil/abseil-cpp/archive/20230125.3/abseil-cpp-20230125.3.tar.gz
 Summary  : No detailed summary available
@@ -65,7 +65,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1690930007
+export SOURCE_DATE_EPOCH=1690933369
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -85,13 +85,16 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1690930007
+export SOURCE_DATE_EPOCH=1690933369
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/abseil-cpp
 cp %{_builddir}/abseil-cpp-%{version}/LICENSE %{buildroot}/usr/share/package-licenses/abseil-cpp/77ca6ddbb42e1c1c589a0874f0ad28b7da4cccbb || :
 pushd clr-build
 %make_install
 popd
+## install_append content
+sed -i 's|absl_random_internal_mock_overload_set = 20230125, ||' %{buildroot}/usr/lib64/pkgconfig/absl_random_mocking_bit_gen.pc
+## install_append end
 
 %files
 %defattr(-,root,root,-)

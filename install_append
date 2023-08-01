@@ -1,0 +1,1 @@
+sed -i 's|absl_random_internal_mock_overload_set = 20230125, ||' %{buildroot}/usr/lib64/pkgconfig/absl_random_mocking_bit_gen.pc
