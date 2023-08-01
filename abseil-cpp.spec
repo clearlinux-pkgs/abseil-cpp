@@ -5,7 +5,7 @@
 #
 Name     : abseil-cpp
 Version  : 20230125.3
-Release  : 3
+Release  : 4
 URL      : https://github.com/abseil/abseil-cpp/archive/20230125.3/abseil-cpp-20230125.3.tar.gz
 Source0  : https://github.com/abseil/abseil-cpp/archive/20230125.3/abseil-cpp-20230125.3.tar.gz
 Summary  : No detailed summary available
@@ -19,6 +19,7 @@ BuildRequires : googletest-dev
 # Suppress stripping binaries
 %define __strip /bin/true
 %define debug_package %{nil}
+Patch1: 0001-scoped-mock-log.patch
 
 %description
 # Abseil - C++ Common Libraries
@@ -57,13 +58,14 @@ license components for the abseil-cpp package.
 %prep
 %setup -q -n abseil-cpp-20230125.3
 cd %{_builddir}/abseil-cpp-20230125.3
+%patch -P 1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1690918675
+export SOURCE_DATE_EPOCH=1690930007
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -74,12 +76,16 @@ export CFLAGS="$CFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -f
 export FCFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
 export FFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
 export CXXFLAGS="$CXXFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
-%cmake ..
+%cmake .. -DCMAKE_CXX_STANDARD=17 \
+-DBUILD_SHARED_LIBS=ON \
+-DABSL_BUILD_TEST_HELPERS=ON \
+-DABSL_USE_EXTERNAL_GOOGLETEST=ON \
+-DABSL_FIND_GOOGLETEST=ON
 make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1690918675
+export SOURCE_DATE_EPOCH=1690930007
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/abseil-cpp
 cp %{_builddir}/abseil-cpp-%{version}/LICENSE %{buildroot}/usr/share/package-licenses/abseil-cpp/77ca6ddbb42e1c1c589a0874f0ad28b7da4cccbb || :
@@ -532,6 +538,7 @@ popd
 /usr/lib64/libabsl_random_seed_sequences.so
 /usr/lib64/libabsl_raw_hash_set.so
 /usr/lib64/libabsl_raw_logging_internal.so
+/usr/lib64/libabsl_scoped_mock_log.so
 /usr/lib64/libabsl_scoped_set_env.so
 /usr/lib64/libabsl_spinlock_wait.so
 /usr/lib64/libabsl_stacktrace.so
@@ -575,6 +582,7 @@ popd
 /usr/lib64/pkgconfig/absl_container_memory.pc
 /usr/lib64/pkgconfig/absl_cord.pc
 /usr/lib64/pkgconfig/absl_cord_internal.pc
+/usr/lib64/pkgconfig/absl_cord_test_helpers.pc
 /usr/lib64/pkgconfig/absl_cordz_functions.pc
 /usr/lib64/pkgconfig/absl_cordz_handle.pc
 /usr/lib64/pkgconfig/absl_cordz_info.pc
@@ -620,6 +628,7 @@ popd
 /usr/lib64/pkgconfig/absl_hash.pc
 /usr/lib64/pkgconfig/absl_hash_function_defaults.pc
 /usr/lib64/pkgconfig/absl_hash_policy_traits.pc
+/usr/lib64/pkgconfig/absl_hash_testing.pc
 /usr/lib64/pkgconfig/absl_hashtable_debug.pc
 /usr/lib64/pkgconfig/absl_hashtable_debug_hooks.pc
 /usr/lib64/pkgconfig/absl_hashtablez_sampler.pc
@@ -694,6 +703,7 @@ popd
 /usr/lib64/pkgconfig/absl_random_internal_traits.pc
 /usr/lib64/pkgconfig/absl_random_internal_uniform_helper.pc
 /usr/lib64/pkgconfig/absl_random_internal_wide_multiply.pc
+/usr/lib64/pkgconfig/absl_random_mocking_bit_gen.pc
 /usr/lib64/pkgconfig/absl_random_random.pc
 /usr/lib64/pkgconfig/absl_random_seed_gen_exception.pc
 /usr/lib64/pkgconfig/absl_random_seed_sequences.pc
@@ -701,9 +711,11 @@ popd
 /usr/lib64/pkgconfig/absl_raw_hash_set.pc
 /usr/lib64/pkgconfig/absl_raw_logging_internal.pc
 /usr/lib64/pkgconfig/absl_sample_recorder.pc
+/usr/lib64/pkgconfig/absl_scoped_mock_log.pc
 /usr/lib64/pkgconfig/absl_scoped_set_env.pc
 /usr/lib64/pkgconfig/absl_span.pc
 /usr/lib64/pkgconfig/absl_spinlock_wait.pc
+/usr/lib64/pkgconfig/absl_spy_hash_state.pc
 /usr/lib64/pkgconfig/absl_stacktrace.pc
 /usr/lib64/pkgconfig/absl_status.pc
 /usr/lib64/pkgconfig/absl_statusor.pc
@@ -792,6 +804,7 @@ popd
 /usr/lib64/libabsl_random_seed_sequences.so.2301.0.0
 /usr/lib64/libabsl_raw_hash_set.so.2301.0.0
 /usr/lib64/libabsl_raw_logging_internal.so.2301.0.0
+/usr/lib64/libabsl_scoped_mock_log.so.2301.0.0
 /usr/lib64/libabsl_scoped_set_env.so.2301.0.0
 /usr/lib64/libabsl_spinlock_wait.so.2301.0.0
 /usr/lib64/libabsl_stacktrace.so.2301.0.0
