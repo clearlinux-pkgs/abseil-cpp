@@ -5,7 +5,7 @@
 #
 Name     : abseil-cpp
 Version  : 20230125.2
-Release  : 2
+Release  : 3
 URL      : https://github.com/abseil/abseil-cpp/archive/20230125.2/abseil-cpp-20230125.2.tar.gz
 Source0  : https://github.com/abseil/abseil-cpp/archive/20230125.2/abseil-cpp-20230125.2.tar.gz
 Summary  : No detailed summary available
