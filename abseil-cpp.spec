@@ -7,7 +7,7 @@
 #
 Name     : abseil-cpp
 Version  : 20240116.2
-Release  : 4
+Release  : 7
 URL      : https://github.com/abseil/abseil-cpp/archive/20240116.2/abseil-cpp-20240116.2.tar.gz
 Source0  : https://github.com/abseil/abseil-cpp/archive/20240116.2/abseil-cpp-20240116.2.tar.gz
 Summary  : No detailed summary available
@@ -65,7 +65,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1716414358
+export SOURCE_DATE_EPOCH=1716416702
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -83,7 +83,11 @@ FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
 export GOAMD64=v2
-%cmake ..
+%cmake .. -DBUILD_SHARED_LIBS=ON \
+-DBUILD_TESTING=ON \
+-DABSL_BUILD_TEST_HELPERS=ON \
+-DABSL_USE_EXTERNAL_GOOGLETEST=ON \
+-DABSL_FIND_GOOGLETEST=ON
 make  %{?_smp_mflags}
 popd
 
@@ -102,7 +106,7 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1716414358
+export SOURCE_DATE_EPOCH=1716416702
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/abseil-cpp
 cp %{_builddir}/abseil-cpp-%{version}/LICENSE %{buildroot}/usr/share/package-licenses/abseil-cpp/77ca6ddbb42e1c1c589a0874f0ad28b7da4cccbb || :
@@ -565,6 +569,7 @@ popd
 /usr/lib64/libabsl_random_seed_sequences.so
 /usr/lib64/libabsl_raw_hash_set.so
 /usr/lib64/libabsl_raw_logging_internal.so
+/usr/lib64/libabsl_scoped_mock_log.so
 /usr/lib64/libabsl_scoped_set_env.so
 /usr/lib64/libabsl_spinlock_wait.so
 /usr/lib64/libabsl_stacktrace.so
@@ -612,6 +617,7 @@ popd
 /usr/lib64/pkgconfig/absl_container_memory.pc
 /usr/lib64/pkgconfig/absl_cord.pc
 /usr/lib64/pkgconfig/absl_cord_internal.pc
+/usr/lib64/pkgconfig/absl_cord_test_helpers.pc
 /usr/lib64/pkgconfig/absl_cordz_functions.pc
 /usr/lib64/pkgconfig/absl_cordz_handle.pc
 /usr/lib64/pkgconfig/absl_cordz_info.pc
@@ -657,6 +663,7 @@ popd
 /usr/lib64/pkgconfig/absl_hash.pc
 /usr/lib64/pkgconfig/absl_hash_function_defaults.pc
 /usr/lib64/pkgconfig/absl_hash_policy_traits.pc
+/usr/lib64/pkgconfig/absl_hash_testing.pc
 /usr/lib64/pkgconfig/absl_hashtable_debug.pc
 /usr/lib64/pkgconfig/absl_hashtable_debug_hooks.pc
 /usr/lib64/pkgconfig/absl_hashtablez_sampler.pc
@@ -736,6 +743,7 @@ popd
 /usr/lib64/pkgconfig/absl_random_internal_traits.pc
 /usr/lib64/pkgconfig/absl_random_internal_uniform_helper.pc
 /usr/lib64/pkgconfig/absl_random_internal_wide_multiply.pc
+/usr/lib64/pkgconfig/absl_random_mocking_bit_gen.pc
 /usr/lib64/pkgconfig/absl_random_random.pc
 /usr/lib64/pkgconfig/absl_random_seed_gen_exception.pc
 /usr/lib64/pkgconfig/absl_random_seed_sequences.pc
@@ -743,9 +751,11 @@ popd
 /usr/lib64/pkgconfig/absl_raw_hash_set.pc
 /usr/lib64/pkgconfig/absl_raw_logging_internal.pc
 /usr/lib64/pkgconfig/absl_sample_recorder.pc
+/usr/lib64/pkgconfig/absl_scoped_mock_log.pc
 /usr/lib64/pkgconfig/absl_scoped_set_env.pc
 /usr/lib64/pkgconfig/absl_span.pc
 /usr/lib64/pkgconfig/absl_spinlock_wait.pc
+/usr/lib64/pkgconfig/absl_spy_hash_state.pc
 /usr/lib64/pkgconfig/absl_stacktrace.pc
 /usr/lib64/pkgconfig/absl_status.pc
 /usr/lib64/pkgconfig/absl_statusor.pc
@@ -839,6 +849,7 @@ popd
 /usr/lib64/libabsl_random_seed_sequences.so.2401.0.0
 /usr/lib64/libabsl_raw_hash_set.so.2401.0.0
 /usr/lib64/libabsl_raw_logging_internal.so.2401.0.0
+/usr/lib64/libabsl_scoped_mock_log.so.2401.0.0
 /usr/lib64/libabsl_scoped_set_env.so.2401.0.0
 /usr/lib64/libabsl_spinlock_wait.so.2401.0.0
 /usr/lib64/libabsl_stacktrace.so.2401.0.0
