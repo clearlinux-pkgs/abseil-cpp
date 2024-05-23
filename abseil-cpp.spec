@@ -7,7 +7,7 @@
 #
 Name     : abseil-cpp
 Version  : 20240116.2
-Release  : 9
+Release  : 10
 URL      : https://github.com/abseil/abseil-cpp/archive/20240116.2/abseil-cpp-20240116.2.tar.gz
 Source0  : https://github.com/abseil/abseil-cpp/archive/20240116.2/abseil-cpp-20240116.2.tar.gz
 Summary  : No detailed summary available
@@ -69,7 +69,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1716487399
+export SOURCE_DATE_EPOCH=1716488214
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -110,7 +110,7 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1716487399
+export SOURCE_DATE_EPOCH=1716488214
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/abseil-cpp
 cp %{_builddir}/abseil-cpp-%{version}/LICENSE %{buildroot}/usr/share/package-licenses/abseil-cpp/77ca6ddbb42e1c1c589a0874f0ad28b7da4cccbb || :
