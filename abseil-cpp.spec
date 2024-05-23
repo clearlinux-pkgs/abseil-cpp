@@ -7,7 +7,7 @@
 #
 Name     : abseil-cpp
 Version  : 20240116.2
-Release  : 8
+Release  : 9
 URL      : https://github.com/abseil/abseil-cpp/archive/20240116.2/abseil-cpp-20240116.2.tar.gz
 Source0  : https://github.com/abseil/abseil-cpp/archive/20240116.2/abseil-cpp-20240116.2.tar.gz
 Summary  : No detailed summary available
@@ -22,6 +22,7 @@ BuildRequires : googletest-dev
 %define __strip /bin/true
 %define debug_package %{nil}
 Patch1: 0001-Workaround-dependency-failure.patch
+Patch2: 0002-Drop-use-of-ctzs.patch
 
 %description
 # Abseil - C++ Common Libraries
@@ -61,13 +62,14 @@ license components for the abseil-cpp package.
 %setup -q -n abseil-cpp-20240116.2
 cd %{_builddir}/abseil-cpp-20240116.2
 %patch -P 1 -p1
+%patch -P 2 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1716418241
+export SOURCE_DATE_EPOCH=1716487399
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -108,7 +110,7 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1716418241
+export SOURCE_DATE_EPOCH=1716487399
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/abseil-cpp
 cp %{_builddir}/abseil-cpp-%{version}/LICENSE %{buildroot}/usr/share/package-licenses/abseil-cpp/77ca6ddbb42e1c1c589a0874f0ad28b7da4cccbb || :

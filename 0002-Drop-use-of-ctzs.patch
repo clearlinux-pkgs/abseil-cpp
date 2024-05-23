@@ -1,0 +1,33 @@
+From 461bb4269bf603c07f44e1159f8d637f3e95e7a7 Mon Sep 17 00:00:00 2001
+From: William Douglas <william.douglas@intel.com>
+Date: Thu, 23 May 2024 10:59:24 -0700
+Subject: [PATCH 2/2] Drop use of ctzs
+
+detection seems to not be working quite right for gcc
+
+Signed-off-by: William Douglas <william.douglas@intel.com>
+---
+ absl/numeric/internal/bits.h | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/absl/numeric/internal/bits.h b/absl/numeric/internal/bits.h
+index bfef06b..875d8e4 100644
+--- a/absl/numeric/internal/bits.h
++++ b/absl/numeric/internal/bits.h
+@@ -303,13 +303,7 @@ CountTrailingZeroesNonzero64(uint64_t x) {
+ 
+ ABSL_ATTRIBUTE_ALWAYS_INLINE ABSL_INTERNAL_CONSTEXPR_CTZ inline int
+ CountTrailingZeroesNonzero16(uint16_t x) {
+-#if ABSL_HAVE_BUILTIN(__builtin_ctzs)
+-  static_assert(sizeof(unsigned short) == sizeof(x),  // NOLINT(runtime/int)
+-                "__builtin_ctzs does not take 16-bit arg");
+-  return __builtin_ctzs(x);
+-#else
+   return CountTrailingZeroesNonzero32(x);
+-#endif
+ }
+ 
+ template <class T>
+-- 
+2.45.1
+
